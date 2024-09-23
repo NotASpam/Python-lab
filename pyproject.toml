@@ -2,7 +2,7 @@
 name = "checkio"
 version = "0.1.0"
 description = "demo poetry"
-authors = ["Your Name <you@example.com>"]
+authors = ["NotASpam <you@example.com>"]
 license = "MIT"
 readme = "README.md"
 
