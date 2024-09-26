@@ -67,19 +67,6 @@ jobs:
         with:
           files: coverage.svg
 
-      - name: Update README with Coverage Badge
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run:
-          README_FILE="README.md"
-          SVG_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref }}/coverage.svg"
-
-          # Check if the line already exists and replace it, otherwise add it
-          if grep -q "Coverage Badge" "$README_FILE"; then
-              sed -i "s|!\[Coverage Badge\](.*)|![Coverage Badge]($SVG_URL)|" "$README_FILE"
-          else
-              echo "![Coverage Badge]($SVG_URL)" >> "$README_FILE"
-          fi
-
       - name: Commit files
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: |
