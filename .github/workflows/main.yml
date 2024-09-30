@@ -73,7 +73,7 @@ jobs:
       #       Install additional dependencies if required
       #----------------------------------------------
       - name: Install additional dependencies
-        run: poetry install -E amazon -E docs
+        run: poetry add -E amazon -E docs
 
       #----------------------------------------------
       #       Build documentation
