@@ -72,8 +72,9 @@ jobs:
       #----------------------------------------------
       #       Install additional dependencies if required
       #----------------------------------------------
-      - name: Install additional dependencies
-        run: poetry add -E amazon -E docs
+      - uses: abatilo/actions-poetry@v2.1.3
+      - name: install
+        run: poetry install -E amazon -E docs
 
       #----------------------------------------------
       #       Build documentation
