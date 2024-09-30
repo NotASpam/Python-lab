@@ -1154,9 +1154,9 @@ docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx (>=7.1.2,!=7.3)", "s
 test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7)", "packaging (>=23.1)", "pytest (>=7.4)", "pytest-env (>=0.8.2)", "pytest-freezer (>=0.4.8)", "pytest-mock (>=3.11.1)", "pytest-randomly (>=3.12)", "pytest-timeout (>=2.1)", "setuptools (>=68)", "time-machine (>=2.10)"]
 
 [extras]
-docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-napoleon"]
+docs = ["sphinx", "sphinx-rtd-theme", "sphinxcontrib-napoleon"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "5be4cb76d2c3e29447e56080c9468f4c7f45dce9466039c5a6601599235764bb"
+content-hash = "88e2519ffd721196f71c4a71da05ce00cbdeedbf69200b4ca5f75dbdeed800d7"
