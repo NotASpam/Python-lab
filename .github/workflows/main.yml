@@ -9,17 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       #----------------------------------------------
-      #       check-out repo and set-up python
+      #       Check out repo and set up Python
       #----------------------------------------------
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Set up python
+        
+      - name: Set up Python
         id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
       #----------------------------------------------
-      #  -----  install & configure poetry  -----
+      #       Install & configure Poetry
       #----------------------------------------------
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -30,7 +32,7 @@ jobs:
           installer-parallel: true
 
       #----------------------------------------------
-      #       load cached venv if cache exists
+      #       Load cached venv if cache exists
       #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
@@ -38,52 +40,71 @@ jobs:
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          
       #----------------------------------------------
-      # install dependencies if cache does not exist
+      #       Install dependencies if cache does not exist
       #----------------------------------------------
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
+
       #----------------------------------------------
-      # install your root project, if required
+      #       Install the root project if required
       #----------------------------------------------
       - name: Install project
         run: poetry install --no-interaction
-      #----------------------------------------------
-      # install your root project, if required
-      #----------------------------------------------
-      - name: Run tox
-        run: poetry run tox
-      
 
+      #----------------------------------------------
+      #       Run tests with tox
+      #----------------------------------------------
+      - name: Run tests
+        run: poetry run tox
+
+      #----------------------------------------------
+      #       Generate coverage badge
+      #----------------------------------------------
       - name: Coverage Badge
         uses: tj-actions/coverage-badge-py@v2
 
-
-      
+      #----------------------------------------------
+      #       Verify changed files for coverage badge
+      #----------------------------------------------
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v16
         id: verify-changed-files
         with:
           files: coverage.svg
-      
-      - uses: abatilo/actions-poetry@v2.1.3
-    - name: install
-      run: poetry install -E amazon -E docs
-    - name: Build documentation
-      run: |
-        mkdir gh-pages
-        touch gh-pages/.nojekyll
-        cd docs/
-        poetry run sphinx-build -b html . _build
-        cp -r _build/* ../gh-pages/        
-    - name: Deploy documentation
-      if: ${{ github.event_name == 'push' }}
-      uses: JamesIves/github-pages-deploy-action@4.1.4
-      with:
-        branch: gh-pages
-        folder: gh-pages
 
+      #----------------------------------------------
+      #       Install additional dependencies if required
+      #----------------------------------------------
+      - name: Install additional dependencies
+        run: poetry install -E amazon -E docs
+
+      #----------------------------------------------
+      #       Build documentation
+      #----------------------------------------------
+      - name: Build documentation
+        run: |
+          mkdir gh-pages
+          touch gh-pages/.nojekyll
+          cd docs/
+          poetry run sphinx-build -b html . _build
+          cp -r _build/* ../gh-pages/
+
+      #----------------------------------------------
+      #       Deploy documentation to GitHub Pages
+      #----------------------------------------------
+      - name: Deploy documentation
+        if: ${{ github.event_name == 'push' }}
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: gh-pages
+
+      #----------------------------------------------
+      #       Commit changes for coverage badge
+      #----------------------------------------------
       - name: Commit files
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         run: |
@@ -92,6 +113,9 @@ jobs:
           git add coverage.svg
           git commit -m "Updated coverage.svg"
 
+      #----------------------------------------------
+      #       Push changes to the repository
+      #----------------------------------------------
       - name: Push changes
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         uses: ad-m/github-push-action@master
