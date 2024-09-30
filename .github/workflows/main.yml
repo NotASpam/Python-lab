@@ -78,8 +78,8 @@ jobs:
       #----------------------------------------------
       #       Install additional dependencies if required
       #----------------------------------------------
-      - name: Install additional dependencies
-        run: poetry install -E amazon -E docs
+      #- name: Install additional dependencies
+      #  run: poetry install -E amazon -E docs
 
       #----------------------------------------------
       #       Build documentation
