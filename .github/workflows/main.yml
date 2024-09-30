@@ -49,12 +49,6 @@ jobs:
         run: poetry install --no-interaction --no-root
 
       #----------------------------------------------
-      #       Install the root project if required
-      #----------------------------------------------
-      - name: Install project
-        run: poetry install --no-interaction
-
-      #----------------------------------------------
       #       Run tests with tox
       #----------------------------------------------
       - name: Run tests
@@ -78,8 +72,8 @@ jobs:
       #----------------------------------------------
       #       Install additional dependencies if required
       #----------------------------------------------
-      #- name: Install additional dependencies
-      #  run: poetry install -E amazon -E docs
+      - name: Install additional dependencies
+        run: poetry install -E amazon -E docs
 
       #----------------------------------------------
       #       Build documentation
